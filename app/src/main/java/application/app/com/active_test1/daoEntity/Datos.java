@@ -1,15 +1,23 @@
 package application.app.com.active_test1.daoEntity;
 
-import com.orm.SugarRecord;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
 import java.util.Date;
 
-public class Datos extends SugarRecord {
+@Table(name = "datos", id = "_id")
+public class Datos extends Model {
 
+    @Column(name = "integer")
     private Integer integer;
+    @Column(name = "real")
     private Double real;
+    @Column(name = "text")
     private String text;
+    @Column(name = "numDate")
     private Date numDate;
+    @Column(name = "numBool")
     private Boolean numBool;
 
     public Datos() {

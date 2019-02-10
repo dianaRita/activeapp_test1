@@ -1,4 +1,3 @@
-
-- ver posibilidad de mejorar controlador.estado, ya que el código se repite
-- Implementar hilos para las demás operaciones en controlador;
-- Documentar todos los métodos como para reutilizar en las demás apps
+- corregir cantidad de registros eliminados en eliminar
+- revisar controlador
+- relizar pruebas

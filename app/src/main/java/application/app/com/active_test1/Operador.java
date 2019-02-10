@@ -2,7 +2,8 @@ package application.app.com.active_test1;
 
 import android.app.ActivityManager;
 
-import com.orm.SugarRecord;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 
 import java.math.BigInteger;
 import java.text.DecimalFormat;
@@ -225,7 +226,7 @@ public class Operador {
 
         ini = System.currentTimeMillis();
         while ( dts == null ) {
-            dts = SugarRecord.listAll( Datos.class );
+            dts = new Select().all().from( Datos.class ).execute();
             memApp = getMemoryApp();
             memDev = getMemoryDevice();
         }
@@ -272,23 +273,26 @@ public class Operador {
      * @return rstl {@link Map<String, String>} Resultados.
      */
     public Map< String, String > actualizaAleatorio(){
-
+        List<Datos> datos = null;
         Map<String,Double> memApp = null;
         Map<String,Double> memDev = null;
-        long id = SugarRecord.first(Datos.class).getId();
-        long n = getCant();
+        datos = new Select().all().from(Datos.class).orderBy("_id ASC").execute();
+        int n = datos.size();
         long up = -1;
 
         long ini = System.currentTimeMillis();
         for ( int i = 0 ; i < n; i++) {
-            if (i==(n-1)) {
+            if ( i == ( n - 1) ) {
                 memApp = getMemoryApp();
                 memDev = getMemoryDevice();
             }
-            Datos d = genDatos();
-            d.setId(id);
-            up = d.save();
-            id++;
+            Datos newD = genDatos();
+            Datos oldD = datos.get( i );
+            oldD.setInteger( newD.getInteger() ); oldD.setReal( newD.getReal() );
+            oldD.setText( newD.getText() ); oldD.setNumDate( newD.getNumDate() );
+            oldD.setNumBool( newD.getNumBool() );
+
+            up = oldD.save();
         }
         long fin = System.currentTimeMillis();
 
@@ -322,30 +326,29 @@ public class Operador {
      */
     public Map< String, String > actualiza(){
 
+        List<Datos> datos = null;
         Map<String,Double> memApp = null;
         Map<String,Double> memDev = null;
-        long id = SugarRecord.first(Datos.class).getId();
-        long n = getCant();
+        datos = new Select().all().from(Datos.class).orderBy( "_id ASC" ).execute();
         long up = -1;
+        int n = datos.size();
         Datos d = genDatos();
 
         long ini = System.currentTimeMillis();
         for ( int i = 0 ; i < n; i++) {
-            if (i==(n-1)) {
+            if ( i == ( n - 1 ) ) {
                 memApp = getMemoryApp();
                 memDev = getMemoryDevice();
             }
 
-            Datos datoIns= new Datos();
-            datoIns.setInteger(d.getInteger());
-            datoIns.setReal(d.getReal());
-            datoIns.setText(d.getText());
-            datoIns.setNumDate(d.getNumDate());
-            datoIns.setNumBool(d.getNumBool());
-            d.setId(id);
+            Datos oldD = datos.get( i );
+            oldD.setInteger(d.getInteger());
+            oldD.setReal(d.getReal());
+            oldD.setText(d.getText());
+            oldD.setNumDate(d.getNumDate());
+            oldD.setNumBool(d.getNumBool());
 
-            up = d.save();
-            id++;
+            up = oldD.save();
         }
         long fin = System.currentTimeMillis();
 
@@ -386,9 +389,10 @@ public class Operador {
 
         ini = System.currentTimeMillis();
         while ( c == 0 ) {
-            c = SugarRecord.deleteAll(Datos.class);
+            new Delete().from(Datos.class).execute();
             memApp = getMemoryApp();
             memDev = getMemoryDevice();
+            c++;
         }
         fin = System.currentTimeMillis();
 
@@ -409,7 +413,7 @@ public class Operador {
      * @return long Cantidad de registros en la base de datos.
      */
     public long getCant(){
-        return SugarRecord.count(Datos.class);
+        return new Select().from(Datos.class).count();
     }
 
 }
