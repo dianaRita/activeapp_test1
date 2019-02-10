@@ -385,19 +385,19 @@ public class Operador {
         Map<String, Double> memApp = null;
         Map<String, Double> memDev = null;
         long ini = 0, fin = 0;
-        int c = 0;
-
+        long c = getCant();
+        boolean x = true;
         ini = System.currentTimeMillis();
-        while ( c == 0 ) {
+        while ( x ) {
             new Delete().from(Datos.class).execute();
             memApp = getMemoryApp();
             memDev = getMemoryDevice();
-            c++;
+            x = false;
         }
         fin = System.currentTimeMillis();
 
         rslt.put("tiempo", ( fin -ini) + "ms");
-        rslt.put("cantElim", c+"");
+        rslt.put("cantElim", c + "");
         rslt.put("memAsigApp", memApp.get("totMemAsig") + "mb");
         rslt.put("memUsadaApp", memApp.get("memUsada") + "mb");
         rslt.put("porcMemUsadaApp", memApp.get("porcMemUsada") + "%");

@@ -16,10 +16,26 @@ import java.util.Map;
  */
 public class Controlador {
 
+    /**
+     * Atributo que guarda la referencia de la vista.
+     */
     private MainActivity m;
+
+    /**
+     * Atributo que se utiliza para crear un {@link Operador} para realizar las operaciones en la db.
+     */
     private Operador op;
+
+    /**
+     * Atributo utilizado para escuchar los resultados de las operaciones en los hilos de ejecución.
+     */
     private Handler hndlr;
 
+    /**
+     * Constructor.
+     * Recibe la vista para poder manipular sus componentes
+     * @param m {@link MainActivity}
+     */
     public Controlador(MainActivity m) {
         this.m = m;
         this.op = new Operador((ActivityManager) m.getSystemService(Context.ACTIVITY_SERVICE));

@@ -7,6 +7,12 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+
+/**
+ * Clase principal, arranca la aplicación.
+ * Inicializa los elementos visuales de la app y pasa la referencia de la vista
+ * al {@link Controlador}
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Button btnIns, btnCons, btnAct, btnElim;
@@ -28,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         this.tCant = findViewById(R.id.tCant);
         this.tCnsl = findViewById(R.id.tCnsl);
 
+        // pasa la referencia de la vista al controlador
         new Controlador(this);
 
     }
